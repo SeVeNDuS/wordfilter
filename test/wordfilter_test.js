@@ -38,6 +38,22 @@ exports['awesome'] = {
     test.equal(wordfilter.blacklisted('this string is clean!'), false, 'should be false');
     test.done();
   },
+  'replace bad words with \'*****\' in a string': function(test) {
+    test.expect(5);
+    // tests here
+    test.equal(wordfilter.sanitize('this string contains the word skank'), 'this string contains the word *****', 'skank should be replaced by *****');
+    test.equal(wordfilter.sanitize('this string contains the word SkAnK'), 'this string contains the word *****', 'SkAnK should be replaced by *****');
+    test.equal(wordfilter.sanitize('this string contains the word wordskank'), 'this string contains the word *****', 'wordskank should be replaced by word*****');
+    test.equal(wordfilter.sanitize('this string contains the word skankword'), 'this string contains the word *****', 'skankword should be replaced by *****word');
+    test.equal(wordfilter.blacklisted('this string is clean!'), 'this string is clean!', 'should be the same string');
+    test.done();
+  }
+  'replace bad words with \'BW\' in a string': function(test) {
+    test.expect(1);
+    // tests here
+    test.equal(wordfilter.sanitize('this string contains the word skank', 'BW'), 'this string contains the word BW', 'skank should be replaced by BW');
+    test.done();
+  }
   'add a word to blacklist': function(test) {
     wordfilter.addWords(['clean']);
 
